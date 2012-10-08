@@ -204,6 +204,5 @@ if __name__ == "__main__":
   dryrun = opts.dryrun
   debug = opts.debug
   print "[INFO]dryrun=%s, debug=%s"%(dryrun, debug)  
-  root_dir = opts.src_dir
-  pic_root = opts.dest_dir
+  root_dir, pic_root = args
   walkDir(root_dir, ".*\.(JPG|jpg|THM)", move2YearMonth, pic_root)
