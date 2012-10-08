@@ -22,6 +22,8 @@ class PhotoGoHomeTestCase(unittest.TestCase):
     self.assertTrue(os.path.exists('./dest_dir/2011/02/2011-02-27.Canon PowerShot S2 IS.MVI_1707027.AVI'))
     self.assertTrue(os.path.exists('./dest_dir/2011/02/2011-02-27.Canon PowerShot S2 IS.MVI_1707027.THM'))
     self.assertTrue(os.path.exists('./dest_dir/2011/09/2011-09-30.Canon PowerShot S2 IS.IMG_1848456.JPG'))
+    self.assertTrue(os.path.exists('./dest_dir/2012/09/2012-09-24.Canon EOS 60D.IMG_134350.JPG'))
+    self.assertTrue(os.path.exists('./dest_dir/2012/09/2012-09-24.Canon EOS 60D.IMG_134350.CR2'))
 
     ret = os.system('rm -rf src_dir dest_dir')
     self.assertEqual(ret, 0)

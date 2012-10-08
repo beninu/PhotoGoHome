@@ -79,6 +79,11 @@ def getFilePath(subdir, old_filename, file_type, dest_root):
     new_filepath = os.path.join(pic_root, year, month, new_filename)
     old_filepath_avi = None
     new_filepath_avi = None
+  elif file_type == 'CR2':
+    new_filename = "%s.%s.IMG_%s.CR2"%(riqi.strftime("%Y-%m-%d"), model, filenumber)
+    new_filepath = os.path.join(pic_root, year, month, new_filename)
+    old_filepath_avi = None
+    new_filepath_avi = None
   elif file_type == 'THM':
     old_filepath_avi = old_filepath[:-4]+".AVI"
     new_filename = "%s.%s.MVI_%s.THM"%(riqi.strftime("%Y-%m-%d"), model, filenumber)
@@ -100,7 +105,7 @@ def move2YearMonth(subdir, f, dest_root):
   """
   file_type = getFileType(f)
 
-  if file_type not in ("JPG", "jpg", "THM"):
+  if file_type not in ("JPG", "jpg", "THM", "CR2"):
     print "[WARNING]unknonw file_type=%s"%file_type
     return
 
@@ -120,7 +125,7 @@ def move2YearMonth(subdir, f, dest_root):
   if not dryrun:
     os.system(cmd)
   
-  if file_type in ('JPG', 'jpg'): # JPG文件只移动本身，THM文件需要移动相应的AVI文件
+  if file_type in ('JPG', 'jpg', 'CR2'): # JPG文件只移动本身，THM文件需要移动相应的AVI文件
     return
 
   cmd = 'mv "%s" "%s"'%(old_filepath_avi, new_filepath_avi)
@@ -205,4 +210,4 @@ if __name__ == "__main__":
   debug = opts.debug
   print "[INFO]dryrun=%s, debug=%s"%(dryrun, debug)  
   root_dir, pic_root = args
-  walkDir(root_dir, ".*\.(JPG|jpg|THM)", move2YearMonth, pic_root)
+  walkDir(root_dir, ".*\.(JPG|jpg|THM|CR2)", move2YearMonth, pic_root)
