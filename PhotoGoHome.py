@@ -50,15 +50,26 @@ def exifInfo(img_file):
   """
   if debug:
     print "[DEBUG]exifInfo: img_file=%s"%img_file
-  image = pyexiv2.Image(img_file)
-  image.readMetadata()
-  model = image['Exif.Image.Model']
-  riqi = image['Exif.Image.DateTime']
-  try:
-    filenumber = image['Exif.Canon.FileNumber']
-  except KeyError as e:
-    filenumber = riqi.strftime("%H%M%S")
-    print "[DEBUG]exifInfo: cannot find Exif.Canon.FileNumber for img_file=%s, using time for filenumber=%s"%(img_file,filenumber)
+  if pyexiv2.version_info[1] >= 2: # XXX need to check
+    metadata = pyexiv2.ImageMetadata(img_file)
+    metadata.read()
+    model = metadata['Exif.Image.Model'].value
+    riqi = metadata['Exif.Image.DateTime'].value
+    try:
+      filenumber = metadata['Exif.Canon.FileNumber'].value
+    except KeyError as e:
+      filenumber = riqi.strftime("%H%M%S")
+      print "[DEBUG]exifInfo: cannot find Exif.Canon.FileNumber for img_file=%s, using time for filenumber=%s"%(img_file,filenumber)
+  else:
+    metadata = pyexiv2.Image(img_file)
+    metadata.readMetadata()
+    model = metadata['Exif.Image.Model']
+    riqi = metadata['Exif.Image.DateTime']
+    try:
+      filenumber = metadata['Exif.Canon.FileNumber']
+    except KeyError as e:
+      filenumber = riqi.strftime("%H%M%S")
+      print "[DEBUG]exifInfo: cannot find Exif.Canon.FileNumber for img_file=%s, using time for filenumber=%s"%(img_file,filenumber)
 
   if debug:
     print "[DEBUG]exifInfo: model=%s, riqi=%s, filenumber=%s"%(model, riqi, filenumber)
